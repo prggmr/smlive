@@ -3,6 +3,13 @@
     <head>
     </head>
     <script src="sp://spoouts/js/spoout.js"></script>
+    <script>
+    // on application start
+    window.onload = function() {
+        // load spoout with spotify API client
+        window.spoout.start(getSpotifyApi(1))
+    }
+    </script>
     <body>
         <div id="home" class="page">
             <h1>Welcome to Spoouts!</h1>
