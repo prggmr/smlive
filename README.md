@@ -1,4 +1,4 @@
-spoouts
-=======
+hellospotify
+============
 
-personal spotify hangouts
+My helloworld into the spotify application

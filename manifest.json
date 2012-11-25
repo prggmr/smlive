@@ -1,0 +1,39 @@
+{
+    "AppDescription": {
+        "en": "Spoouts"
+    },
+    "AppName": {
+        "en": "spoouts"
+    },
+    "BundleIdentifier": "spoouts",
+    "BundleType": "Application",
+    "BundleVersion": "0.1",
+    "DefaultTabs": [
+        {
+            "arguments": "home",
+            "title": {
+                "en": "Home"
+            }
+        },
+        {
+            "arguments": "my_spoout",
+            "title": {
+                "en": "My Spoout"
+            }
+        },
+        {
+            "arguments": "friends",
+            "title": {
+                "en": "Friends"
+            }
+        }
+    ],
+    "Dependencies": {
+    },
+    "RequiredInterface": 1,
+    "RequiredPermissions": [],
+    "SupportedLanguages": [
+        "en"
+    ],
+    "VendorIdentifier": "co.prggmr"
+}
