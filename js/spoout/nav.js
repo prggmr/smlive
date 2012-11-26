@@ -47,7 +47,6 @@ window.spoout.nav = {
      * change.
      */
     start: function(spotify) {
-        console.log(this)
         this.spotify = spotify
         // onload setup the navigation
         if (null === this.pages) {
@@ -55,29 +54,55 @@ window.spoout.nav = {
             var pages = document.getElementsByClassName('page')
             for (i=0;i<pages.length;i++) {
                 var page = pages[i]
+                console.log(page)
                 if (this.pages.hasOwnProperty(page.id)) {
-                    throw new Exception("Page " + id + " already exists")
+                    throw new SpooutException(
+                        SPOOUT_EXCEPTION.RUNTIME,
+                        "Page " + id + " already exists",
+                        this
+                    )
                 }
                 this.hide(page)
                 this.pages[page.id] = page
             }
+            // Navigate
+            this.navigate()
+            var models = spotify.require('sp://import/scripts/api/models');
+
+            tabs();
+            models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
+            function tabs(){
+                console.log('why')
+            }
             // register for the onchange event
+            // this.spotify.models.application.observe(
+            //     this.spotify.models.EVENT.ARGUMENTSCHANGED, 
+            //     this.navigate
+            // )
             this.spotify.models.application.observe(
-                this.spotify.models.EVENT.ARGUMENTSCHANGED, 
-                this.navigate
+                this.spotify.models.EVENT.ARGUMENTSCHANGED, console
             )
+            console.log(this.spotify.models.application)
         }
     },
     /**
      * Navigates between pages
      */
     navigate: function(){
-        console.log()
         page = this.spotify.models.application.arguments[0]
+        if (!this.pages.hasOwnProperty(page)) {
+            throw new SpooutException(
+                SPOOUT_EXCEPTION.INVALID_ARGUMENTS,
+                "Invalid page "+page+" requested",
+                this
+            )
+        }
+        page = this.pages[page]
         if (null !== this.current) {
             this.hide(this.current)
         }
-        this.show(this.pages.page)
+        this.current = page
+        this.show(page)
     },
     /**
      * TODO: Add a nice transition for going page to page.

@@ -6,6 +6,8 @@
     <script>
     // on application start
     window.onload = function() {
+        // turn on debug mode
+        window.spoout.debug = true;
         // load spoout with spotify API client
         window.spoout.start(getSpotifyApi(1))
     }
