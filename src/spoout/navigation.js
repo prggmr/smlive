@@ -60,7 +60,6 @@ exports.navigation = {
             var pages = document.getElementsByClassName('page')
             for (var i=0;i<pages.length;i++) {
                 var page = pages[i]
-                console.log(page)
                 if (this.pages.hasOwnProperty(page.id)) {
                     throw new SpooutException(
                         SPOOUT_EXCEPTION.RUNTIME,
@@ -81,9 +80,12 @@ exports.navigation = {
      * @throws
      * @return  void
      */
-    navigate: function(){
-        console.log("TEST")
-        var page = this.spotify.models.application.arguments[0]
+    navigate: function(event){
+        if (event === undefined) {
+            var page = this.spotify.models.application.arguments[0]
+        } else {
+            var page = event.arguments[0]
+        }
         if (!this.pages.hasOwnProperty(page)) {
             throw new SpooutException(
                 SPOOUT_EXCEPTION.INVALID_ARGUMENTS,

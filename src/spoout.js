@@ -74,8 +74,13 @@ var spoout = {
                 ).navigation
                 spoout.navigation.start(spoout.spotify)
                 spoout.spotify.models.application.observe(
-                    spoout.spotify.models.EVENT.ARGUMENTSCHANGED, 
-                    spoout.navigation.navigate
+                    spoout.spotify.models.EVENT.ARGUMENTSCHANGED,
+                    // call the navigation within the navigation scope 
+                    function(event){
+                        spoout.navigation.navigate.apply(
+                            spoout.navigation, [event]
+                        )
+                    }
                 )
             },
             'Authentication',
