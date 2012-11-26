@@ -9,7 +9,9 @@
  * wether it is handled manually or by a signal from the spotify app. 
  * 
  */
-window.spoout.nav = {
+"use strict";
+
+exports.navigation = {
     /**
      * The Spotify Client
      */
@@ -43,16 +45,20 @@ window.spoout.nav = {
     /**
      * Handles the inital load of the navigation.
      *
-     * Creating the navigation index and adding a handle to the navigation 
+     * Creates the navigation index and adds a handle to the navigation 
      * change.
+     *
+     * @param  object  spotify  The spotify API client
+     *
+     * @return  void
      */
     start: function(spotify) {
         this.spotify = spotify
-        // onload setup the navigation
+        // setup the navigation
         if (null === this.pages) {
             this.pages = {}
             var pages = document.getElementsByClassName('page')
-            for (i=0;i<pages.length;i++) {
+            for (var i=0;i<pages.length;i++) {
                 var page = pages[i]
                 console.log(page)
                 if (this.pages.hasOwnProperty(page.id)) {
@@ -67,29 +73,17 @@ window.spoout.nav = {
             }
             // Navigate
             this.navigate()
-            var models = spotify.require('sp://import/scripts/api/models');
-
-            tabs();
-            models.application.observe(models.EVENT.ARGUMENTSCHANGED, tabs);
-            function tabs(){
-                console.log('why')
-            }
-            // register for the onchange event
-            // this.spotify.models.application.observe(
-            //     this.spotify.models.EVENT.ARGUMENTSCHANGED, 
-            //     this.navigate
-            // )
-            this.spotify.models.application.observe(
-                this.spotify.models.EVENT.ARGUMENTSCHANGED, console
-            )
-            console.log(this.spotify.models.application)
         }
     },
     /**
-     * Navigates between pages
+     * Navigates between pages.
+     *
+     * @throws
+     * @return  void
      */
     navigate: function(){
-        page = this.spotify.models.application.arguments[0]
+        console.log("TEST")
+        var page = this.spotify.models.application.arguments[0]
         if (!this.pages.hasOwnProperty(page)) {
             throw new SpooutException(
                 SPOOUT_EXCEPTION.INVALID_ARGUMENTS,
@@ -107,13 +101,21 @@ window.spoout.nav = {
     /**
      * TODO: Add a nice transition for going page to page.
      * 
-     * Shows a page
+     * Shows a page.
+     *
+     * @param  object  page  DOMElement to show
+     *
+     * @return  void
      */
     show: function(page) {
         page.style.display = 'block'
     },
     /**
-     * Hide a page
+     * Hide a page.
+     *
+     * @param  object  page  DOMElement to show
+     *
+     * @return  void
      */
     hide: function(page) {
         page.style.display = 'none'

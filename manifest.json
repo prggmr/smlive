@@ -1,11 +1,11 @@
 {
     "AppDescription": {
-        "en": "Spoouts"
+        "en": "Spoout"
     },
     "AppName": {
-        "en": "spoouts"
+        "en": "spoout"
     },
-    "BundleIdentifier": "spoouts",
+    "BundleIdentifier": "spoout",
     "BundleType": "Application",
     "BundleVersion": "0.1",
     "DefaultTabs": [
@@ -13,12 +13,6 @@
             "arguments": "home",
             "title": {
                 "en": "Home"
-            }
-        },
-        {
-            "arguments": "my_spoout",
-            "title": {
-                "en": "My Spoout"
             }
         },
         {
