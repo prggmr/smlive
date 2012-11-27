@@ -23,7 +23,6 @@ window.SPOOUT_EXCEPTION = {
      */
     INVALID_ARGUMENTS: 2
 }
-
 var spoout = {
     /**
      * Debug
@@ -40,14 +39,14 @@ var spoout = {
         /**
          * Spotify Models
          */
-        models: null,
+        models: null
     },
     /**
      * Facebook auth settings
      */
     facebook: {
         'permissions': [],
-        'app_id': null,
+        'app_id': null
     },
     /**
      * Spoout application start
@@ -56,36 +55,43 @@ var spoout = {
         this.spotify.client = spotify;
         var _loaders = [
             'Spotify App',
-            function(spoout){
-                spoout.spotify.models = spotify.require(
+            function(){
+                this.spotify.models = this.spotify.client.require(
                     'sp://import/scripts/api/models'
                 )
-                var sp = getSpotifyApi();
-                var models = sp.require('sp://import/scripts/api/models');
-
-                models.player.observe(models.EVENT.CHANGE, function(event) {
-                  console.log('Something changed!', event);
-                });
+                this.spotify.models.player.observe(
+                    this.spotify.models.EVENT.CHANGE, 
+                    function(event) {
+                        console.log('Something changed!', event, this)
+                    }
+                );
             },
             'Navigation',
-            function(spoout){
-                spoout.navigation = spotify.require(
+            function(){
+                this.navigation = this.spotify.client.require(
                     'sp://spoout/src/spoout/navigation'
                 ).navigation
-                spoout.navigation.start(spoout.spotify)
-                spoout.spotify.models.application.observe(
-                    spoout.spotify.models.EVENT.ARGUMENTSCHANGED,
-                    // call the navigation within the navigation scope 
+                this.navigation.start(this.spotify)
+                // Handle the navigation change
+                this.spotify.models.application.observe(
+                    this.spotify.models.EVENT.ARGUMENTSCHANGED,
+                    // call the navigation using the navigation scope 
                     function(event){
-                        spoout.navigation.navigate.apply(
-                            spoout.navigation, [event]
+                        this.navigation.navigate.apply(
+                            this.navigation, [
+                              event, this.navigation.FOWARDBOUND_LINK
+                            ]
                         )
                     }
                 )
             },
             'Authentication',
-            function(spoout){
-                spoout.auth()
+            function(){
+                console.log(console);
+                this.authentication = this.spotify.client.require(
+                    'sp://spoout/src/spoout/authentication'
+                ).authentication
+                this.authentication.start(this.spotify)
             }
         ]
         /**
@@ -97,7 +103,7 @@ var spoout = {
             var _load = _loaders[i]
             if (typeof _load === 'function') {
                 _percent.innerHTML = Math.round(((i+1) / _loaders.length) * 100, 0)
-                _load(this)
+                _load.apply(this)
             }
             if (typeof _load === 'string') {
                 _item.innerHTML = _load

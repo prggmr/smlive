@@ -1,17 +1,36 @@
 /**
+ * Copyright 2012 Nickolas Whiting
+ * This file is part of proprietary software and use of this file
+ * is strictly prohibited without the written consent of the owner.
+ */
+"use strict";
+/**
  * Navigation
  * 
  * The navigation works by keeping the current and indexing the entire 
  * navigation, when the page is to change it closes the current and displays
  * the next.
  *
- * This also adds a nice navigation ability for going back through the app 
- * wether it is handled manually or by a signal from the spotify app. 
- * 
+ * This also adds a nice ability for transversing through states though limited 
+ * by memory.
  */
-"use strict";
-
 exports.navigation = {
+    /**
+     * Forwardbound link
+     */
+    FOWARDBOUND_LINK: 1,
+    /**
+     * Backwordsbound link
+     */
+    BACKWARDS_BOUND: 2,
+    /**
+     * Memory allowed for storing states in bytes.
+     */
+    ALLOWED_MEMORY: 1024,
+    /**
+     * Amount of memory consumed
+     */
+    MEMORY_CONSUMED: 0,
     /**
      * The Spotify Client
      */
@@ -29,7 +48,7 @@ exports.navigation = {
      *     'time': Timestamp
      * }
      */
-    history: [],
+    backward_history: [],
     /**
      * Foward history navigation
      *
@@ -77,10 +96,12 @@ exports.navigation = {
     /**
      * Navigates between pages.
      *
+     * @event  
+     *
      * @throws
      * @return  void
      */
-    navigate: function(event){
+    navigate: function(event, type) {
         if (event === undefined) {
             var page = this.spotify.models.application.arguments[0]
         } else {
@@ -94,6 +115,27 @@ exports.navigation = {
             )
         }
         page = this.pages[page]
+        // if (type !== undefined) {
+        //     switch(type) {
+        //     case this.FOWARDBOUND_LINK:
+        //         this.foward_history.push({
+        //             page: page,
+        //             time: new Date(),
+        //             // TODO: Add current page storage
+        //             //storage: 
+        //         })
+        //         break;
+        //     case this.BACKWARDS_BOUND:
+        //         this.backward_history.push({
+        //             page: page,
+        //             time: new Date()
+        //         })
+        //         break;
+        //     default:
+        //     case undefined:
+        //         break;
+        //     }
+        // }
         if (null !== this.current) {
             this.hide(this.current)
         }

@@ -25,7 +25,9 @@
     "Dependencies": {
     },
     "RequiredInterface": 1,
-    "RequiredPermissions": [],
+    "RequiredPermissions": [
+        "https://*.facebook.com"
+    ],
     "SupportedLanguages": [
         "en"
     ],
