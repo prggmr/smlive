@@ -1,49 +1,61 @@
 <!DOCTYPE html>
 <html>
     <head>
-    </head>
-    <script src="sp://spoout/src/spoout.js"></script>
+    <!-- Spotify CSS Files -->
+    <style>
+        @import url('sp://import/css/eve.css');
+        @import url('sp://smlive/css/main.css');
+    </style>
+    <script src="sp://smlive/src/smlive.js"></script>
     <script>
     // on application start
     window.onload = function() {
         // turn on debug mode
-        window.spoout.debug = true;
-        // load spoout with spotify API client
-        window.spoout.start(getSpotifyApi(1))
+        window.smlive.debug = true;
+        // load smlive with spotify API client
+        window.smlive.start(getSpotifyApi(1))
     }
     </script>
+    </head>
     <body>
+    <div id="wrapper">
         <div id="load">
-        <center>
-            <span id="load_percent">0</span>%
-            <p id="load_id"></p>
-        </center>
+            <center>
+                <h1>
+                    <span id="load_percent">0</span>%
+                </h1>
+                <p id="load_id"></p>
+            </center>
         </div>
         <div id="home" class="page" style="display: none">
-            <h1>Spoout!</h1>
-            <p id="private">
-                You are currently private, your music will not be shared.
+            <h1>smlive</h1>
+            <p>
+                Social music live!
             </p>
-            <p id="public">
-                You are now public and allow for live listeners.
-            </p>
+            <div class="toggle">
+                <span class="on">
+                    <span class="live">Live</span>
+                </span>
+                <span class="off">
+                    <span class="solo">Solo</span>
+                </span>
+            </div>
         </div>
         <div id="friends" class="page" style="display: none">
             <h1>Friends</h1>
-            <div class="private">
-                <p>
-                    Your Spoout is private.
-                </p>
-            </div>
-            </div>
-            <div class="public">
-                <p>
-                    Click a friend to invite them to your Spoout.
-                </p>
-            </div>
+            <p>
+                Join a friend, listen live!
+            </p>
         </div>
         <div id="authentication" class="page" style="display: none;">
+            <h1>
+                smlive
+            </h1>
+            <p>
+                Social music live!
+            </p>
             <a href="#" id="login">Login</a>
         </div>
+    </div>
     </body>
 </html>

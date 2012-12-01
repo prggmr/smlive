@@ -1,11 +1,11 @@
 {
     "AppDescription": {
-        "en": "Spoout"
+        "en": "smlive"
     },
     "AppName": {
-        "en": "spoout"
+        "en": "smlive"
     },
-    "BundleIdentifier": "spoout",
+    "BundleIdentifier": "smlive",
     "BundleType": "Application",
     "BundleVersion": "0.1",
     "DefaultTabs": [

@@ -13,6 +13,12 @@
  *
  * This also adds a nice ability for transversing through states though limited 
  * by memory.
+ *
+ * TODO
+ * ----
+ * - Keep track memory usage in history
+ * - Store the history
+ * - Create a nice transitioning effect between navigating pages 
  */
 exports.navigation = {
     /**
@@ -80,8 +86,8 @@ exports.navigation = {
             for (var i=0;i<pages.length;i++) {
                 var page = pages[i]
                 if (this.pages.hasOwnProperty(page.id)) {
-                    throw new SpooutException(
-                        SPOOUT_EXCEPTION.RUNTIME,
+                    throw new smliveException(
+                        smlive_EXCEPTION.RUNTIME,
                         "Page " + id + " already exists",
                         this
                     )
@@ -96,7 +102,7 @@ exports.navigation = {
     /**
      * Navigates between pages.
      *
-     * @event  
+     * @param
      *
      * @throws
      * @return  void
@@ -105,17 +111,23 @@ exports.navigation = {
         if (event === undefined) {
             var page = this.spotify.models.application.arguments[0]
         } else {
-            var page = event.arguments[0]
+            if (event.hasOwnProperty('arguments')) {
+                var page = event.arguments[0]
+            } else {
+                var page = event
+            }
         }
-        if (!this.pages.hasOwnProperty(page)) {
-            throw new SpooutException(
-                SPOOUT_EXCEPTION.INVALID_ARGUMENTS,
-                "Invalid page "+page+" requested",
-                this
-            )
+        if (typeof page !== 'object') {
+            if (!this.pages.hasOwnProperty(page)) {
+                throw new smliveException(
+                    smlive_EXCEPTION.INVALID_ARGUMENTS,
+                    "Invalid page "+page+" requested",
+                    this
+                )
+            }
+            page = this.pages[page]
         }
-        page = this.pages[page]
-        // if (type !== undefined) {
+        // if (type !== undefined && type !== null) {
         //     switch(type) {
         //     case this.FOWARDBOUND_LINK:
         //         this.foward_history.push({

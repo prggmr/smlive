@@ -29,18 +29,20 @@ exports.authentication = {
      * 
      * @return  void
      */
-    start: function(spotify) {
+    start: function(spotify, smlive) {
         this.spotify = spotify
         var token = window.localStorage.getItem(this.AUTH_TOKEN)
         if (token === null) {
             var auth = this.spotify.client.require(
                 'sp://import/scripts/api/auth'
             );
+            var navigation = getSmliveClient('navigation')
+            navigation.navigate(navigation.pages.authentication)
             /* Set the permissions you want from the user. For more
              * info, check out http://bit.ly/A4KCW3 */
-            var permissions = ['user_about_me'];
-            var app_id = '126891607432106';
-            var login = document.getElementById('authentication')
+            var permissions = ['user_about_me', 'publish_stream','manage_notifications'];
+            var app_id = '344581888972496';
+            var login = document.getElementById('login')
             login.addEventListener('click', function(){
                 auth.authenticateWithFacebook(app_id, permissions, {
                     onSuccess: function(accessToken, ttl) {

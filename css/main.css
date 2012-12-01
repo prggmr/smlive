@@ -1,0 +1,50 @@
+body { 
+    min-height: 100%; 
+    padding: 10px 0 20px;
+    box-sizing: border-box;
+}
+#wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1 {
+    font-size: 4em;
+    text-align: center;
+    padding: .5em;
+}
+p {
+    text-align: center;
+    font-size: 2.5em;
+    padding: .3em;
+}
+.toggle {
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid #DDDCD9;
+    background: #d2d0d0;
+    font-size: 2em;
+    width: 152px;
+    margin: 1em auto;
+}
+.toggle span, .toggle span.on {
+    cursor: pointer;
+    margin: 1px;
+    height: 38px;
+    display: block;
+    float: left;
+    padding: 6px 5px 0;
+    text-align: center;
+}
+.toggle span.on {
+    border: 2px solid #F5F2F2;
+    border-radius: 5px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fffcfc), color-stop(100%,#f2f1ea));
+}
+.toggle span.off {
+    border: 2px solid #d2d0d0;
+    border-radius: 5px;
+}

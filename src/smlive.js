@@ -3,17 +3,16 @@
  * This file is part of proprietary software and use of this file
  * is strictly prohibited without the written consent of the owner.
  */
-"use strict";
 /**
- * Spoout
+ * smlive
  *
- * Listen to Spotify and share it live!
+ * Share music live!
  */
 (function(window){
 /**
  * Error handling
  */
-window.SPOOUT_EXCEPTION = {
+window.smlive_EXCEPTION = {
     /**
      * Invalid runtime detection
      */
@@ -23,7 +22,7 @@ window.SPOOUT_EXCEPTION = {
      */
     INVALID_ARGUMENTS: 2
 }
-var spoout = {
+var smlive = {
     /**
      * Debug
      */
@@ -49,7 +48,7 @@ var spoout = {
         'app_id': null
     },
     /**
-     * Spoout application start
+     * smlive application start
      */
     start: function(spotify) {
         this.spotify.client = spotify;
@@ -59,27 +58,28 @@ var spoout = {
                 this.spotify.models = this.spotify.client.require(
                     'sp://import/scripts/api/models'
                 )
-                this.spotify.models.player.observe(
-                    this.spotify.models.EVENT.CHANGE, 
-                    function(event) {
-                        console.log('Something changed!', event, this)
-                    }
-                );
+                // this.spotify.models.player.observe(
+                //     this.spotify.models.EVENT.CHANGE, 
+                //     function(event) {
+                //         console.log('Something changed!', event, this)
+                //     }
+                // );
             },
             'Navigation',
             function(){
-                this.navigation = this.spotify.client.require(
-                    'sp://spoout/src/spoout/navigation'
+                var navigation = this.spotify.client.require(
+                    'sp://smlive/src/smlive/navigation'
                 ).navigation
+                this.navigation = navigation
                 this.navigation.start(this.spotify)
                 // Handle the navigation change
                 this.spotify.models.application.observe(
                     this.spotify.models.EVENT.ARGUMENTSCHANGED,
                     // call the navigation using the navigation scope 
                     function(event){
-                        this.navigation.navigate.apply(
-                            this.navigation, [
-                              event, this.navigation.FOWARDBOUND_LINK
+                        navigation.navigate.apply(
+                            navigation, [
+                              event, navigation.FOWARDBOUND_LINK
                             ]
                         )
                     }
@@ -87,9 +87,8 @@ var spoout = {
             },
             'Authentication',
             function(){
-                console.log(console);
                 this.authentication = this.spotify.client.require(
-                    'sp://spoout/src/spoout/authentication'
+                    'sp://smlive/src/smlive/authentication'
                 ).authentication
                 this.authentication.start(this.spotify)
             }
@@ -111,26 +110,19 @@ var spoout = {
         }
         this.navigation.hide(document.getElementById('load'))
     },
-    /**
-     * Facebook authentication
-     */
-    auth: function(){
-        console.log('TODO: FACEBOOK AUTH')
-    }
-
 }
 
 /**
  * Let the window know.
  */
-window.spoout = spoout;
+window.smlive = smlive;
 })(window)
 
 /**
- * Defining, Throwing and Handling Spoout errors.
+ * Defining, Throwing and Handling smlive errors.
  */
-function SpooutException(type, message, object) {
-    if (spoout.debug) {
+function smliveException(type, message, object) {
+    if (window.smlive.debug) {
         console.log(type, message, object)
     }
     return {
@@ -138,4 +130,21 @@ function SpooutException(type, message, object) {
         message: message,
         object: object
     }
+}
+
+/**
+ * Returns the smlive client.
+ */
+function getSmliveClient(client) {
+    if (typeof client === undefined) {
+        return window.smlive;
+    }
+    if (window.smlive.hasOwnProperty(client)) {
+        return window.smlive[client]
+    }
+    throw new smliveException(
+        window.smlive_EXCEPTION.RUNTIME, 
+        'smlive has no client '+client,
+        null
+    )
 }
