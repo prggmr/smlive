@@ -108,15 +108,7 @@ exports.navigation = {
      * @return  void
      */
     navigate: function(event, type) {
-        if (event === undefined) {
-            var page = this.spotify.models.application.arguments[0]
-        } else {
-            if (event.hasOwnProperty('arguments')) {
-                var page = event.arguments[0]
-            } else {
-                var page = event
-            }
-        }
+        var page = this.spotify.models.application.arguments[0]
         if (typeof page !== 'object') {
             if (!this.pages.hasOwnProperty(page)) {
                 throw new smliveException(
@@ -127,32 +119,11 @@ exports.navigation = {
             }
             page = this.pages[page]
         }
-        // if (type !== undefined && type !== null) {
-        //     switch(type) {
-        //     case this.FOWARDBOUND_LINK:
-        //         this.foward_history.push({
-        //             page: page,
-        //             time: new Date(),
-        //             // TODO: Add current page storage
-        //             //storage: 
-        //         })
-        //         break;
-        //     case this.BACKWARDS_BOUND:
-        //         this.backward_history.push({
-        //             page: page,
-        //             time: new Date()
-        //         })
-        //         break;
-        //     default:
-        //     case undefined:
-        //         break;
-        //     }
-        // }
         if (null !== this.current) {
             this.hide(this.current)
         }
-        this.current = page
         this.show(page)
+        this.current = page
     },
     /**
      * TODO: Add a nice transition for going page to page.

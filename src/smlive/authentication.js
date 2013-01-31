@@ -4,6 +4,7 @@
  * is strictly prohibited without the written consent of the owner.
  */
 "use strict";
+var AUTH_TOKEN = "auth_token";
 /**
  * Authentication
  * 
@@ -31,8 +32,9 @@ exports.authentication = {
      */
     start: function(spotify, smlive) {
         this.spotify = spotify
-        var token = window.localStorage.getItem(this.AUTH_TOKEN)
+        var token = window.localStorage.getItem(AUTH_TOKEN)
         if (token === null) {
+            // document.getElementById('authentication').style.display = 'block'
             var auth = this.spotify.client.require(
                 'sp://import/scripts/api/auth'
             );
@@ -40,14 +42,12 @@ exports.authentication = {
             navigation.navigate(navigation.pages.authentication)
             /* Set the permissions you want from the user. For more
              * info, check out http://bit.ly/A4KCW3 */
-            var permissions = ['user_about_me', 'publish_stream','manage_notifications'];
+            var permissions = ['user_about_me', 'publish_stream', 'manage_notifications'];
             var app_id = '344581888972496';
             var login = document.getElementById('login')
-            login.addEventListener('click', function(){
+            // login.addEventListener('click', function(){
                 auth.authenticateWithFacebook(app_id, permissions, {
-                    onSuccess: function(accessToken, ttl) {
-                        console.log('SUCCESS', accessToken, ttl)
-                    },
+                    onSuccess: this.onSuccess,
                     onFailure: function(error) {
                         console.log('Authentication failed with error: ' + error);
                     },
@@ -55,7 +55,15 @@ exports.authentication = {
                         console.log('THIS COMPLETED')
                     }
                 })
-            })
+            // })
+        } else {
+            console.log(token)
         }
+    },
+    onSuccess: function(accessToken, ttl) {
+        window.localStorage.setItem(
+            AUTH_TOKEN, 
+            accessToken
+        )
     }
 }

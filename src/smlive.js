@@ -58,12 +58,12 @@ var smlive = {
                 this.spotify.models = this.spotify.client.require(
                     'sp://import/scripts/api/models'
                 )
-                // this.spotify.models.player.observe(
-                //     this.spotify.models.EVENT.CHANGE, 
-                //     function(event) {
-                //         console.log('Something changed!', event, this)
-                //     }
-                // );
+                this.spotify.models.player.observe(
+                    this.spotify.models.EVENT.CHANGE, 
+                    function(event) {
+                        console.log('Something changed!', event, this)
+                    }
+                );
             },
             'Navigation',
             function(){
